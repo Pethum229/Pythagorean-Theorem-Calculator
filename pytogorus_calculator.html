@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pythagoras Calculator</title>
+    <style>
+        input,
+        button {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+
+        body {
+            padding: 20px;
+        }
+
+        h1 {
+            color: red;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+        }
+
+        #solution-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        label {
+            font-size: 2em;
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        #calculation {
+            flex-grow: 1;
+            font-size: 1.3em;
+            line-height: 30px;
+        }
+
+        #calculation b {
+            display: block;
+            text-align: center;
+        }
+
+        button {
+            background-color: red;
+            color: white;
+            border-radius: 10px;
+            border: none;
+            padding: 5px 10px;
+            font-size: 1.5em;
+            flex-grow: 1;
+        }
+
+        .sol {
+            font-weight: bold;
+            border-bottom: black double 5px;
+        }
+
+        #buttons {
+            display: flex;
+            gap: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Pythagoras Calculator</h1>
+    <p>
+        This program calculates the hypotenuse or one of the sides of a right
+        triangle using the Pythagoras theorem.
+    </p>
+    <div class="center">
+        <svg width="200" height="200">
+            <polygon points="10,10 10,190 190,190"
+                style="fill: none; stroke: red; stroke-width: 5; fill-rule: evenodd" />
+            <rect x="10" y="180" width="10" height="10" style="stroke: red; stroke-width: 5; fill: none;" />
+            <!-- a -->
+            <text x="80" y="180" fill="black" font-size="2rem">a</text>
+            <!-- b -->
+            <text x="15" y="120" fill="black" font-size="2rem">b</text>
+            <!-- c -->
+            <text x="100" y="95" fill="black" font-size="2rem">c</text>
+        </svg>
+    </div>
+    <br />
+    <b>
+        Fill 2 known sides values and leave the third one empty. Click the
+        "Calculate" button to calculate the third side.
+    </b>
+    <div id="solution-section">
+        <form action="#">
+            <label for="a">a =</label>
+            <input type="number" id="a" />
+            <br />
+            <label for="b">b =</label>
+            <input type="number" id="b" />
+            <br />
+            <label for="c">c =</label>
+            <input type="number" id="c" />
+            <br />
+            <div id="buttons">
+                <button onclick="calculate()">Calculate</button>
+                <button type="reset">Reset</button>
+            </div>
+        </form>
+        <div id="calculation">
+            <b>
+                a<sup>2</sup> + b<sup>2</sup> =
+                c<sup>2</sup>
+            </b>
+            <span id="solution">
+
+            </span>
+        </div>
+    </div>
+
+    <script>
+
+        function calculate(){
+            let a = document.getElementById('a').value;
+            let b = document.getElementById('b').value;
+            let c = document.getElementById('c').value;
+            let solution = document.getElementById('solution');
+            let answer;
+
+            if (a == "" && b == "" && c == ""){
+                alert("Please fill 2 sides");
+            }
+            else if (a == ""){
+                if(b == "" || c ==""){
+                    alert("Please fill 2 sides");
+                }else{
+                    solution.innerHTML = "Solving for a <br>";
+                    solution.innerHTML += "a<sup>2</sup>+b<sup>2</sup> = c<sup>2</sup> <br>";
+                    solution.innerHTML += "a<sup>2</sup>+"+b+"<sup>2</sup> = "+c+"<sup>2</sup> <br>";
+                    solution.innerHTML += "a<sup>2</sup>+"+b*b+" = "+c*c+"<br>";
+                    solution.innerHTML += "a<sup>2</sup> = "+c*c+"-"+b*b+"<br>";
+                    let sol = c*c - b*b;
+                    solution.innerHTML += "a<sup>2</sup> = "+sol+"<br>";
+                    solution.innerHTML += "a = √"+sol+"<br>";
+                    solution.innerHTML += "a = "+Math.sqrt(sol)+"<br>";
+                    answer = Math.sqrt(sol);
+                    document.getElementById('a').value = answer;
+                }
+            }else if (b == ""){
+                if(a == "" || c==""){
+                    alert("Please fill 2 sides");
+                }else{
+                    solution.innerHTML = "Solving for b <br>";
+                    solution.innerHTML += "a<sup>2</sup>+b<sup>2</sup> = c<sup>2</sup> <br>";
+                    solution.innerHTML += a+"<sup>2</sup>+b<sup>2</sup> = "+c+"<sup>2</sup> <br>";
+                    solution.innerHTML += a*a+"+b<sup>2</sup> = "+c*c+"<br>";
+                    solution.innerHTML += "b<sup>2</sup> = "+c*c+"-"+a*a+"<br>";
+                    let sol = c*c - a*a;
+                    solution.innerHTML += "b<sup>2</sup> = "+sol+"<br>";
+                    solution.innerHTML += "b = √"+sol+"<br>";
+                    solution.innerHTML += "b = "+Math.sqrt(sol)+"<br>";
+                    answer = Math.sqrt(sol);
+                    document.getElementById('b').value = answer;
+                }
+            }else if (c == ""){
+                if(a == "" || b==""){
+                    alert("Please fill 2 sides");
+                }else{
+                    solution.innerHTML = "Solving for c <br>";
+                    solution.innerHTML += "a<sup>2</sup>+b<sup>2</sup> = c<sup>2</sup> <br>";
+                    solution.innerHTML += a+"<sup>2</sup>+"+b+"<sup>2</sup> = c<sup>2</sup> <br>";
+                    solution.innerHTML += a*a+"+"+b*b+" = c<sup>2</sup> <br>";
+                    let sol = a*a + b*b;
+                    solution.innerHTML += sol+" = c<sup>2</sup> <br>";
+                    solution.innerHTML += "√"+sol+" = c <br>";
+                    solution.innerHTML += Math.sqrt(sol)+" = c <br>";
+                    solution.innerHTML += "c = "+Math.sqrt(sol)+"<br>";
+                    answer = Math.sqrt(sol);
+                    document.getElementById('c').value = answer;
+                }
+            }else{
+                alert("Please leave one side empty");
+            }
+        }
+
+    </script>
+</body>
+
+</html>
